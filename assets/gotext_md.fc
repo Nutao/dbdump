@@ -1,0 +1,29 @@
+<a id="page_top"> </a>
+
+[TOC]
+
+{{range $dbname, $tables := .}}
+## 数据库{{$dbname}}
+
+{{- range $tables}}
+### {{.TableName}}{{- if .TableComment -}}（{{.TableComment}}）{{- end}}
+
+[*回到顶部 -->*](#page_top)
+
+{{- if.Constraints}}
+> 约束信息
+{{- range .Constraints}}
+> - **【{{.ConstraintType}}】{{.ConstraintName -}}**：{{.Columns}}
+{{- end}}
+
+{{- end}}
+
+| 字段名称 | 字段类型 | KEY | 是否可空 | 默认值 | 备注 | Extra |
+| :----: | :-----: | :-: | :-----: | :---: | :-: | :---: |
+{{- range .Columns}}
+| {{.ColumnName}} | {{.ColumnType}} | {{.ColumnKey}} | {{.IsNullable}} | {{- if .ColumnDefaultNull -}}NULL{{- else -}}{{.ColumnDefault}}{{- end}} | {{.ColumnComment}} | {{.Extra}} |
+{{- end}}
+
+{{end}}
+
+{{end}}
